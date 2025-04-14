@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section{
+    padding: 10vh 0vh 10vh 3vh;
+    line-height: 2em;
+}
+section.sem-imagem{
+    background-color: white;
+    color: black;
+
+}
+section.com-imagem{
+    background-color: rgb(36, 35, 35);
+    color: white;
+    box-shadow: inset 0px 0px 20px 10px rgba(0, 0, 0, 0.678);
+}
+pre{
+    white-space: pre-line;
+    padding-bottom: 1em;
+}
+section.com-imagem pre{
+    background-color: rgba(0, 0, 0, 0.37);
+
+    width: fit-content;
+
+    padding: 1vh;
+
+    text-shadow: 1px 1px 1px black;
+}
+#fundo-1{
+    background: url(../imagens/hotel4k.jpg) center center no-repeat fixed;
+    background-size: cover;
+}
+#fundo-2{
+    background: url(../imagens/areaVerde.jpg) center center no-repeat fixed;
+    background-size: cover;
+}
