@@ -3,21 +3,23 @@ using HotelConsagradoAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Esta seção configura as ferramentas e funcionalidades que a nossa aplicação vai usar.
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Adiciona os serviços necessários para gerar a documentação da nossa API usando o Swagger/OpenAPI.
+// Isso permite que outras pessoas (ou outros sistemas) entendam como usar a nossa API.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<HotelConsagradoDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Constrói a aplicação web com todos os serviços que configuramos.
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configura o pipeline de requisição HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

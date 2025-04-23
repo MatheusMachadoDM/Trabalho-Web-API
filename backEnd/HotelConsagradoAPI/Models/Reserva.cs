@@ -1,4 +1,3 @@
-// Models/Reserva.cs
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,8 +7,12 @@ namespace HotelConsagradoAPI.Models
 {
     public class Reserva
     {
+        // Propriedade que representa o identificador único da reserva
+        // Geralmente, esta é a chave primária no banco de dados
         public int Id { get; set; }
-        [AllowNull]
+        [AllowNull]// Atributo que permite que a propriedade DataCheckIn seja nula (embora DateTime seja um tipo de valor não nulo por padrão, a configuração do banco pode permitir nulos)
+
+        // Propriedade que armazenam atributos na reserva
         public DateTime DataCheckIn { get; set; }
         [Required]
         public DateTime DataCheckOut { get; set; }
@@ -27,6 +30,8 @@ namespace HotelConsagradoAPI.Models
         [Phone]
         public string TelefoneResponsavel { get; set; }
 
+        // Propriedade que representa uma coleção de objetos do tipo Hospede associados a esta reserva
+        // ICollection<T> é uma interface para coleções genéricas
         public ICollection<Hospede> Hospedes { get; set; }
     }
 }
