@@ -13,9 +13,9 @@ namespace HotelConsagradoAPI.Models
         [AllowNull]// Atributo que permite que a propriedade DataCheckIn seja nula (embora DateTime seja um tipo de valor não nulo por padrão, a configuração do banco pode permitir nulos)
 
         // Propriedade que armazenam atributos na reserva
-        public DateTime DataCheckIn { get; set; }
+        public DateOnly DataCheckIn { get; set; }
         [Required]
-        public DateTime DataCheckOut { get; set; }
+        public DateOnly DataCheckOut { get; set; }
         [Required]
         public int QuantidadeAdultos { get; set; }
         public int QuantidadeCriancas { get; set; }

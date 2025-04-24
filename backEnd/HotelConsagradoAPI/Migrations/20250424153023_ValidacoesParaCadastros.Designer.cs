@@ -3,6 +3,7 @@ using System;
 using HotelConsagradoAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelConsagradoAPI.Migrations
 {
     [DbContext(typeof(HotelConsagradoDbContext))]
-    partial class HotelConsagradoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424153023_ValidacoesParaCadastros")]
+    partial class ValidacoesParaCadastros
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");

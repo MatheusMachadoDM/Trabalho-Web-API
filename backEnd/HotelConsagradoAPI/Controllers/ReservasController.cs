@@ -41,6 +41,7 @@ namespace HotelConsagradoAPI.Controllers
         }
 
         // Cria uma nova reserva
+        // ReservasController.cs
         [HttpPost]
         public async Task<ActionResult<Reserva>> PostReserva(ReservaCreateViewModel reservaViewModel)
         {
@@ -61,6 +62,19 @@ namespace HotelConsagradoAPI.Controllers
                 TelefoneResponsavel = reservaViewModel.TelefoneResponsavel,
                 Hospedes = new List<Hospede>()
             };
+
+            if (reservaViewModel.Hospedes != null && reservaViewModel.Hospedes.Any())
+            {
+                foreach (var hospedeViewModel in reservaViewModel.Hospedes)
+                {   
+                    reserva.Hospedes.Add(new Hospede
+                    {
+                        Nome = hospedeViewModel.Nome,
+                        Sobrenome = hospedeViewModel.Sobrenome,
+                        DataNascimento = hospedeViewModel.DataNascimento
+                    });
+                }
+            }
 
             _context.Reservas.Add(reserva);
             await _context.SaveChangesAsync();

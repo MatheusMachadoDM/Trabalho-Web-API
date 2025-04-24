@@ -9,9 +9,9 @@ namespace HotelConsagradoAPI.Models
         [Required]
         public int Id { get; set; }
         [Required]
-        public DateTime DataCheckIn { get; set; }
+        public DateOnly DataCheckIn { get; set; }
         [Required]
-        public DateTime DataCheckOut { get; set; }
+        public DateOnly DataCheckOut { get; set; }
         [Required]
         public int QuantidadeAdultos { get; set; }
         public int QuantidadeCriancas { get; set; }

@@ -1,19 +1,27 @@
-using System.ComponentModel.DataAnnotations.Schema;
+// Hospede.cs
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelConsagradoAPI.Models
 {
     public class Hospede
     {
-        public int Id { get; set; } // Propriedade para o ID único do hóspede (chave primária)
-        [Required]// Atributo que torna a propriedade Nome obrigatória
-        [MaxLength(100)]// Atributo que define o tamanho máximo da string Nome para 100 caracteres
-        // Propriedades para nome e idade
-        public string Nome { get; set; }
-        [Required]
-        public int Idade { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        [ForeignKey("Reserva")] // Atributo que define ReservaId como chave estrangeira referenciando a Reserva.
+        [Required(ErrorMessage = "O Nome do Hóspede é obrigatório.")]
+        [MaxLength(20, ErrorMessage = "O Nome do Hóspede não pode exceder 20 caracteres.")]
+        public string Nome { get; set; }
+
+        [Required(ErrorMessage = "O Sobrenome do Hóspede é obrigatório.")]
+        [MaxLength(50, ErrorMessage = "O Sobrenome do Hóspede não pode exceder 50 caracteres.")]
+        public string Sobrenome { get; set; }
+
+        [Required(ErrorMessage = "A Data de Nascimento do Hóspede é obrigatória.")]
+        public DateOnly DataNascimento { get; set; }
+
+        [ForeignKey("Reserva")]
         public int ReservaId { get; set; }
         public Reserva? Reserva { get; set; }
     }
