@@ -8,6 +8,16 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("null") // Permite requisições da origem 'null' (arquivos locais)
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 // Adiciona os serviços necessários para gerar a documentação da nossa API usando o Swagger/OpenAPI.
 // Isso permite que outras pessoas (ou outros sistemas) entendam como usar a nossa API.
 builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +35,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles(); // Adicione esta linha para servir arquivos estáticos da pasta wwwroot
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

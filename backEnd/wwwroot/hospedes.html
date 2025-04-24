@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerenciamento de hóspedes do Hotel Consagrado.">
+    <meta name="keywords" content="hotel, hóspedes, gerenciar, adicionar, excluir">
+    <title>Hóspedes - Hotel Consagrado</title>
+    <link rel="stylesheet" href="../wwwroot/css/navFotter.css">
+    <link rel="stylesheet" href="../wwwroot/css/contato.css">
+    <style>
+        .table-container {
+            display: flex;
+            flex-flow: column nowrap;
+            flex: 0 1 800px;
+            padding: 15px;
+            background: #ffffff;
+            border: 2px solid #E3B845;
+            border-radius: 5px;
+        }
+        .table-container h2 {
+            text-align: center;
+            font-size: 24px;
+            color: #E3B845;
+            margin-bottom: 15px;
+        }
+        .add-guest-form {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .add-guest-form label {
+            font-size: 14px;
+        }
+        .add-guest-form input[type="text"],
+        .add-guest-form input[type="number"] {
+            padding: 8px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+            flex-grow: 1;
+        }
+        .add-guest-form button {
+            padding: 8px 15px;
+            background: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .add-guest-form button:hover {
+            background: #4cae4c;
+        }
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .table-controls input {
+            padding: 8px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 70%;
+        }
+        .table-controls button {
+            padding: 8px 15px;
+            background: #E3B845;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .table-controls button:hover {
+            background: #b88c15;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #d9d9d9;
+        }
+        table th {
+            background: #E3B845;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        table tr:nth-child(odd) {
+            background: #ffffff;
+        }
+        table tr:hover {
+            background: #d6e9ff;
+        }
+        .delete-btn {
+            padding: 5px 10px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .delete-btn:hover {
+            background: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="../../frontEnd/imagens/logoHotel.png" alt="Logo do hotel">
+        <nav>
+            <a href="../../frontEnd/paginas/index.html">Home</a>
+            <a href="../../frontEnd/paginas/sobre.html">Sobre</a>
+            <a href="../../frontEnd/paginas/reservas.html">Reservas</a>
+            <a href="hospedes.html">Hóspedes</a>
+        </nav>
+    </header>
+    <main>
+        <div class="table-container">
+            <h2>Hóspedes</h2>
+            <div class="add-guest-form">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" placeholder="Nome do hóspede">
+                <label for="idade">Idade:</label>
+                <input type="number" id="idade" placeholder="Idade do hóspede">
+                <label for="reservaId">ID da Reserva:</label>
+                <input type="number" id="reservaId" placeholder="ID da Reserva">
+                <button id="addGuestBtn">Adicionar Hóspede</button>
+            </div>
+            <div class="table-controls">
+                <input type="text" id="filter" placeholder="Filtrar por nome...">
+            </div>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th data-column="id" data-order="desc">ID</th>
+                        <th data-column="nome" data-order="desc">Nome <i class="fas fa-sort"></i></th>
+                        <th data-column="idade" data-order="desc">Idade <i class="fas fa-sort"></i></th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </main>
+    <footer>
+        <p>Site criado apenas para estudo pessoal</p>
+    </footer>
+    
+    <script>
+        const dataTable = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+        const addGuestBtn = document.getElementById('addGuestBtn');
+        const nomeInput = document.getElementById('nome');
+        const idadeInput = document.getElementById('idade');
+        const reservaIdInput = document.getElementById('reservaId');
+        const filterInput = document.getElementById('filter');
+
+        const apiUrl = 'http://localhost:5034/api/Reservas'; // Ajuste a URL base da sua API
+
+        // Função para buscar e exibir os hóspedes de uma reserva específica
+        async function fetchHospedes(reservaId) {
+            try {
+                const response = await fetch(`${apiUrl}/${reservaId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const reserva = await response.json();
+                displayHospedes(reserva.hospedes); // Ajuste para a estrutura correta da sua resposta
+            } catch (error) {
+                console.error('Erro ao buscar hóspedes:', error);
+                // Exibir mensagem de erro na tela, se necessário
+            }
+        }
+
+        // Função para exibir os hóspedes na tabela
+        function displayHospedes(hospedes) {
+            dataTable.innerHTML = ''; // Limpa a tabela
+            hospedes.forEach(hospede => {
+                const row = dataTable.insertRow();
+                const idCell = row.insertCell();
+                const nomeCell = row.insertCell();
+                const idadeCell = row.insertCell();
+                const actionsCell = row.insertCell();
+
+                idCell.textContent = hospede.id;
+                nomeCell.textContent = hospede.nome;
+                idadeCell.textContent = hospede.idade;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Excluir';
+                deleteButton.className = 'delete-btn';
+                deleteButton.addEventListener('click', () => deleteHospede(hospede.reservaId, hospede.id)); // Passa reservaId
+                actionsCell.appendChild(deleteButton);
+            });
+        }
+
+        // Função para adicionar um novo hóspede
+        async function addHospede() {
+            const nome = nomeInput.value.trim();
+            const idade = parseInt(idadeInput.value);
+            const reservaId = parseInt(reservaIdInput.value);
+
+            if (nome && !isNaN(idade) && !isNaN(reservaId)) {
+                try {
+                    const response = await fetch(`${apiUrl}/${reservaId}/Hospedes`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ nome, idade }),
+                    });
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(`HTTP error! status: ${response.status}, message: ${error.errors ? JSON.stringify(error.errors) : response.statusText}`);
+                    }
+                    const newHospede = await response.json();
+                    console.log('Hóspede adicionado:', newHospede);
+                    fetchHospedes(reservaId); // Recarrega os hóspedes da reserva
+                    nomeInput.value = '';
+                    idadeInput.value = '';
+                    // Feedback visual de sucesso
+                } catch (error) {
+                    console.error('Erro ao adicionar hóspede:', error);
+                    alert('Ocorreu um erro ao adicionar o hóspede.');
+                }
+            } else {
+                alert('Por favor, preencha todos os campos corretamente.');
+            }
+        }
+
+        // Função para excluir um hóspede
+        async function deleteHospede(reservaId, hospedeId) {
+            if (confirm('Tem certeza que deseja excluir este hóspede?')) {
+                try {
+                    const response = await fetch(`${apiUrl}/Hospedes/${hospedeId}`, {
+                        method: 'DELETE',
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    console.log('Hóspede excluído com sucesso.');
+                    fetchHospedes(reservaId); // Recarrega os hóspedes da reserva
+                    // Feedback visual de sucesso
+                } catch (error) {
+                    console.error('Erro ao excluir hóspede:', error);
+                    alert('Ocorreu um erro ao excluir o hóspede.');
+                }
+            }
+        }
+
+        // Event listeners
+        addGuestBtn.addEventListener('click', addHospede);
+
+        // Carregar hóspedes de uma reserva inicial (você precisará definir qual ID usar)
+        // Por exemplo, para carregar os hóspedes da reserva com ID 1:
+        const initialReservaId = 1; // Defina o ID da reserva inicial
+        document.addEventListener('DOMContentLoaded', () => {
+            const reservaIdParaCarregar = parseInt(reservaIdInput.value) || initialReservaId;
+            fetchHospedes(reservaIdParaCarregar);
+        });
+
+        // Funcionalidade de filtro (usando os dados carregados no frontend)
+        filterInput.addEventListener('input', function() {
+            const filterText = this.value.toLowerCase();
+            const rows = dataTable.getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) { // Começa do índice 1 para ignorar o cabeçalho
+                const nomeColumn = rows[i].getElementsByTagName('td')[1];
+                if (nomeColumn) {
+                    const nome = nomeColumn.textContent.toLowerCase();
+                    rows[i].style.display = nome.includes(filterText) ? '' : 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
