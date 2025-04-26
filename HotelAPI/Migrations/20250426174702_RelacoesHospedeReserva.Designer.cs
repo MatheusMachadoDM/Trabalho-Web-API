@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelAPI.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20250426174702_RelacoesHospedeReserva")]
+    partial class RelacoesHospedeReserva
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -22,9 +25,6 @@ namespace HotelAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("CPF")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -33,9 +33,8 @@ namespace HotelAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Telefone")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("HospedeId");
 
@@ -75,6 +74,9 @@ namespace HotelAPI.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("HospedeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("QuartoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ReservaId");

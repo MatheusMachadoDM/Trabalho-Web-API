@@ -13,4 +13,12 @@ public class AppDataContext : DbContext
     {
         optionsBuilder.UseSqlite("Data Source=Hotel.db");
     }
+     protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Configurar a relação entre Hospede e Reserva
+        modelBuilder.Entity<Reserva>()
+            .HasOne(r => r.Hospede) // Uma reserva possui um Hospede
+            .WithMany(h => h.Reservas) // Um hospede pode ter várias reservas
+            .HasForeignKey(r => r.HospedeId); // Chave estrangeira 
+    }
 }
