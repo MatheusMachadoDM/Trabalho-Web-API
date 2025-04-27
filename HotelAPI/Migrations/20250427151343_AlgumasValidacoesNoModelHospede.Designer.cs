@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelAPI.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20250427151343_AlgumasValidacoesNoModelHospede")]
+    partial class AlgumasValidacoesNoModelHospede
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -41,6 +44,26 @@ namespace HotelAPI.Migrations
                     b.HasKey("HospedeId");
 
                     b.ToTable("Hospedes");
+                });
+
+            modelBuilder.Entity("HotelAPI.Models.Quarto", b =>
+                {
+                    b.Property<int>("QuartoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Capacidade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Numero")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Preco")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("QuartoId");
+
+                    b.ToTable("Quartos");
                 });
 
             modelBuilder.Entity("HotelAPI.Models.Reserva", b =>

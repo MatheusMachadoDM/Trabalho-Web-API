@@ -7,9 +7,10 @@ public class Hospede{
     [Key] // primary key
     public int HospedeId { get; set; }
     public string Nome { get; set; }
-
-    //[MaxLength(11)]
-    public long CPF { get; set; }
+    [MinLength(11)]
+    [MaxLength(11)]
+    public string CPF { get; set; }
+    [EmailAddress]
     public string Email { get; set; }
     public string Telefone { get; set; }
 
