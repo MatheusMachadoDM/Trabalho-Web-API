@@ -10,8 +10,18 @@ builder.Services.AddDbContext<AppDataContext>();
  // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
  builder.Services.AddEndpointsApiExplorer();
  builder.Services.AddSwaggerGen();
- 
- var app = builder.Build();
+ // *** CONFIGURAÇÃO DO CORS ***
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:3000") // Especifique a origem do seu frontend
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+// *** FIM DA CONFIGURAÇÃO DO CORS ***
+var app = builder.Build();
  
  // Configure the HTTP request pipeline.
  if (app.Environment.IsDevelopment())
@@ -21,6 +31,8 @@ builder.Services.AddDbContext<AppDataContext>();
  }
  
  app.UseHttpsRedirection();
+
+ app.UseCors();
 
 // Cadastro de Reserva já com o hospede junto 
 app.MapPost("/HotelAPI/reserva", ([FromBody] Reserva reserva, [FromServices] AppDataContext context) => { //FromBody indica que o parâmetro será recebido do corpo da requisição (Dados no formato JSON)
