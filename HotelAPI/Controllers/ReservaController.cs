@@ -1,4 +1,4 @@
-using HotelAPI.Models;
+/*using HotelAPI.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,4 +37,4 @@ public class ReservController : ControllerBase {
         }
     }
 
-}
+}*/
