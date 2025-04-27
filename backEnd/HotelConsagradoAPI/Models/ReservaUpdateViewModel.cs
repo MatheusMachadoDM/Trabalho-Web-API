@@ -1,4 +1,4 @@
-// Models/ReservaUpdateViewModel.cs
+// Este código define um modelo de visualização usado para receber os dados necessários para atualizar uma reserva existente
 using System;
 using System.ComponentModel.DataAnnotations;
 

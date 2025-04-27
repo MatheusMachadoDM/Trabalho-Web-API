@@ -19,14 +19,14 @@ namespace HotelConsagradoAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Reservas
+        // Retorna todas as reservas, incluindo os hóspedes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reserva>>> GetReservas()
         {
             return await _context.Reservas.Include(r => r.Hospedes).ToListAsync();
         }
 
-        // GET: api/Reservas/5
+        // Retorna uma reserva específica pelo ID, incluindo os hóspedes
         [HttpGet("{id}")]
         public async Task<ActionResult<Reserva>> GetReserva(int id)
         {
@@ -40,7 +40,7 @@ namespace HotelConsagradoAPI.Controllers
             return reserva;
         }
 
-        // POST: api/Reservas
+        // Cria uma nova reserva
         [HttpPost]
         public async Task<ActionResult<Reserva>> PostReserva(ReservaCreateViewModel reservaViewModel)
         {
@@ -68,7 +68,7 @@ namespace HotelConsagradoAPI.Controllers
             return CreatedAtAction(nameof(GetReserva), new { id = reserva.Id }, reserva);
         }
 
-        // POST: api/Reservas/{reservaId}/Hospedes
+        // Adiciona um hóspede a uma reserva específica.
         [HttpPost("{reservaId}/Hospedes")]
         public async Task<ActionResult<Hospede>> PostHospede(int reservaId, Hospede hospede)
         {
@@ -90,7 +90,7 @@ namespace HotelConsagradoAPI.Controllers
             return CreatedAtAction("GetHospede", new { id = hospede.Id }, hospede);
         }
 
-        // GET: api/Reservas/Hospedes/{id}
+        // Retorna um hóspede específico pelo ID.
         [HttpGet("Hospedes/{id}")]
         public async Task<ActionResult<Hospede>> GetHospede(int id)
         {
@@ -104,7 +104,7 @@ namespace HotelConsagradoAPI.Controllers
             return hospede;
         }
 
-        // PUT: api/Reservas/5
+        // Atualiza uma reserva existente.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReserva(int id, ReservaUpdateViewModel reservaViewModel)
         {
@@ -154,8 +154,7 @@ namespace HotelConsagradoAPI.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Reservas/5
-        // DELETE: api/Reservas/5
+         // Exclui uma reserva específica.
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReserva(int id)
         {
@@ -170,6 +169,7 @@ namespace HotelConsagradoAPI.Controllers
 
             return NoContent();
         }
+        // Atualiza um hóspede existente.
         [HttpPut("Hospedes/{id}")]
         public async Task<IActionResult> PutHospede(int id, Hospede hospede)
         {
@@ -204,7 +204,7 @@ namespace HotelConsagradoAPI.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Reservas/Hospedes/5
+        // Exclui um hóspede específico.
         [HttpDelete("Hospedes/{id}")]
         public async Task<IActionResult> DeleteHospede(int id)
         {

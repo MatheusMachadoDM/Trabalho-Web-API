@@ -1,4 +1,4 @@
-// Models/ReservaCreateViewModel.cs
+// Esta classe é especificamente projetada para coletar os dados necessários para criar uma nova reserva. Ela representa os campos que um usuário precisa fornecer ao solicitar a criação de uma nova reserva
 using System;
 using System.ComponentModel.DataAnnotations;
 
