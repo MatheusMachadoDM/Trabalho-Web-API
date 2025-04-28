@@ -42,7 +42,7 @@ O sistema Hotel permite:
 │<br>
 └── hotel-frontend/            # Código do frontend em React e TypeScript<br>
 ├── public/<br>
-|  ├── index.html<br>
+|├── index.html<br>
 ├── src/<br>
 │   ├── components/<br>
 │   ├── App.tsx<br>
