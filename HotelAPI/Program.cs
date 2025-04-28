@@ -40,10 +40,10 @@ app.MapPost("/HotelAPI/reserva", ([FromBody] Reserva reserva, [FromServices] App
         return Results.BadRequest("Dados de reserva e hóspede são obrigatórios.");
     }
 
-    Hospede? hospedeExistente = context.Hospedes.FirstOrDefault(h => h.CPF == reserva.Hospede.CPF);
+    Hospede? hospedeExistente = context.Hospedes.FirstOrDefault(h => h.CPF == reserva.Hospede.CPF); // Checa se já existe um hospede com o Cpf informado
 
-    if(hospedeExistente == null){
-        context.Hospedes.Add(reserva.Hospede);
+    if(hospedeExistente == null){ // Caso não exista hospede com o Cpf informado, será criado um novo com as informações fornecidas e caso já exista, ele vai associar o hospede 
+        context.Hospedes.Add(reserva.Hospede); // com aquele cpf à reserva
         context.SaveChanges();
         reserva.HospedeId = reserva.Hospede.HospedeId;
     } else{
@@ -69,8 +69,8 @@ app.MapPost("/HotelAPI/reserva", ([FromBody] Reserva reserva, [FromServices] App
 */
 // Lista todas as reservas
 app.MapGet("/HotelAPI/reserva", ([FromServices] AppDataContext context) => {
-    if(context.Reservas.Any()){            // Necessário o include, pois o campo Hospede, aparecia como null.
-        return Results.Ok(context.Reservas.Include(r => r.Hospede).ToList()); //Isso ocorre, pois aparentemente o ef core não carrega dados relacionados automaticamente
+    if(context.Reservas.Any()){                                                // Necessário o include, pois o campo Hospede, aparecia como null.
+        return Results.Ok(context.Reservas.Include(r => r.Hospede).ToList()); // Isso ocorre, pois aparentemente o ef core não carrega dados relacionados automaticamente
     }
 
     return Results.NotFound();
@@ -79,9 +79,9 @@ app.MapGet("/HotelAPI/reserva", ([FromServices] AppDataContext context) => {
 // Buscar uma reserva específica por Id
 app.MapGet("/HotelAPI/reserva{ReservaId}", ([FromRoute] int ReservaId, [FromServices] AppDataContext context) => {
     Reserva? reserva = context.Reservas.Include(r => r.Hospede).FirstOrDefault(r => r.ReservaId == ReservaId); // Precisei utilizar o FirstOrDefault, pois o Find aparentemente
-                                                                                                               // não permite utilizar o Include      
+                                                                                                              // não permite utilizar o Include      
 
-    if(reserva != null){
+    if(reserva != null){ 
         return Results.Ok(reserva);
     }
 
@@ -121,9 +121,9 @@ app.MapGet("/HotelAPI/hospede{CPF}", ([FromRoute] string CPF, [FromServices] App
 
 // Atualiza reserva por Id
 app.MapPut("/HotelAPI/reserva{ReservaId}", ([FromRoute] int ReservaId, [FromBody] Reserva reserva, [FromServices] AppDataContext context) => {
-    Reserva? res = context.Reservas.Include(r => r.Hospede).FirstOrDefault(r => r.ReservaId == ReservaId);
+    Reserva? res = context.Reservas.Include(r => r.Hospede).FirstOrDefault(r => r.ReservaId == ReservaId); // Busca uma reserva específica com o Id fornecido
 
-    if(res == null){
+    if(res == null){ // Se a reserva não existir, retorna Results Not Found
         return Results.NotFound();
     }
 
@@ -132,14 +132,17 @@ app.MapPut("/HotelAPI/reserva{ReservaId}", ([FromRoute] int ReservaId, [FromBody
     res.CheckOut = reserva.CheckOut;
 
     if(reserva.Hospede != null && res.Hospede != null){
-        if(!string.IsNullOrEmpty(reserva.Hospede.Nome)){ // Validação para garantir que a string não é nula nem vazia antes de alterar algo
-            res.Hospede.Nome = reserva.Hospede.Nome;
+        if(!string.IsNullOrEmpty(reserva.Hospede.Nome)){ // Validação para garantir que a string não é nula nem vazia antes de alterar algo, garantindo que algo só será atualizado
+            res.Hospede.Nome = reserva.Hospede.Nome;    // se forem fornecidos novos parâmetros
         }
         if(!string.IsNullOrEmpty(reserva.Hospede.Email)){
             res.Hospede.Email = reserva.Hospede.Email;  
         }
         if(!string.IsNullOrEmpty(reserva.Hospede.Telefone)){
             res.Hospede.Telefone = reserva.Hospede.Telefone;
+        }
+        if(!string.IsNullOrEmpty(reserva.Hospede.CPF)){
+            res.Hospede.CPF = reserva.Hospede.CPF;
         }
     }
 
@@ -162,6 +165,10 @@ app.MapPut("/HotelAPI/hospede{HospedeId}", ([FromRoute] int HospedeId, [FromBody
         if(!string.IsNullOrEmpty(hospede.Telefone)){
             hos.Telefone = hospede.Telefone;
         }
+         if(!string.IsNullOrEmpty(hospede.CPF)){
+            hos.CPF = hospede.CPF;
+        }
+
 
         context.SaveChanges();
         return Results.Ok(hos);
@@ -172,7 +179,7 @@ app.MapPut("/HotelAPI/hospede{HospedeId}", ([FromRoute] int HospedeId, [FromBody
 
 // Deleta Reserva por Id
 app.MapDelete("/HotelAPI/reserva{ReservaId}", ([FromRoute] int ReservaId, [FromServices] AppDataContext context) => {
-    Reserva? reserva = context.Reservas.Find(ReservaId);
+    Reserva? reserva = context.Reservas.Find(ReservaId); // Procura a reserva com o Id fornecido
 
     if(reserva == null){
         return Results.NotFound();  
