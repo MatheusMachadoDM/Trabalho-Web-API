@@ -33,7 +33,7 @@ O sistema Hotel permite:
 
 ## Arquitetura do Projeto
 ├── HotelAPI/             # Código da API em C# (.NET)
-│   ├── Controllers/
+│   ├── Controllers/<br>
 │   ├── Migrations/
 │   ├── Models/
 │   ├── ...
@@ -54,12 +54,12 @@ Antes de executar o projeto, você precisará ter as seguintes ferramentas insta
 
 ### Backend
 
-* [.NET SDK](https://dotnet.microsoft.com/download) (versão mínima necessária)
+* [.NET SDK](https://dotnet.microsoft.com/download) (versão 8.0 é a mínima necessária)
 
 ### Frontend
 
-* [Node.js](https://nodejs.org/) (versão mínima recomendada)
-* [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/) (gerenciador de pacotes)
+* [Node.js](https://nodejs.org/)
+* [npm](https://www.npmjs.com/)
 
 ## Como Executar
 
