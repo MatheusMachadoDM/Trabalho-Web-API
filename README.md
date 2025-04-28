@@ -32,21 +32,21 @@ O sistema Hotel permite:
 * **Comunicação com a API:** Fetch API
 
 ## Arquitetura do Projeto
-├── HotelAPI/             # Código da API em C# (.NET)
+├── HotelAPI/             # Código da API em C# (.NET)<br>
 │   ├── Controllers/<br>
-│   ├── Migrations/
-│   ├── Models/
-│   ├── ...
-│   ├── HotelAPI.csproj
-│   └── Program.cs
-│
-└── hotel-frontend/            # Código do frontend em React e TypeScript
-├── public/
-|  ├── index.html
-├── src/
-│   ├── components/
-│   ├── App.tsx
-└── tsconfig.json
+│   ├── Migrations/<br>
+│   ├── Models/<br>
+│   ├── ...<br>
+│   ├── HotelAPI.csproj<br>
+│   └── Program.cs<br>
+│<br>
+└── hotel-frontend/            # Código do frontend em React e TypeScript<br>
+├── public/<br>
+|  ├── index.html<br>
+├── src/<br>
+│   ├── components/<br>
+│   ├── App.tsx<br>
+└── tsconfig.json<br>
 
 ## Pré-requisitos
 
