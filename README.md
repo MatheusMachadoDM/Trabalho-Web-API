@@ -18,7 +18,7 @@ O sistema Hotel permite:
 ### Backend
 
 * **Linguagem:** C\#
-* **Framework:** .NET (ex: .NET 8)
+* **Framework:** .NET
 * **ORM:** Entity Framework Core
 * **Banco de Dados:** SQLite
 * **API:** ASP.NET Core Web API
@@ -94,33 +94,10 @@ Siga estas instruções para executar o projeto em seu ambiente local:
     ```
 3.  Execute a aplicação frontend em modo de desenvolvimento:
     ```bash
-    npm run dev
+    npm run start
     ```
     A aplicação frontend estará disponível em um endereço como `http://localhost:[outra-porta]` (geralmente `3000` ou `5173`, dependendo da sua configuração).
 
-## Configuração
-
-### Backend
-
-* **String de Conexão do Banco de Dados:** Configure a string de conexão no arquivo de configuração da sua aplicação (`appsettings.json` ou similar).
-* **Configurações de CORS:** Se necessário, ajuste as configurações de CORS no arquivo `Program.cs` ou `Startup.cs` para permitir requisições do seu frontend.
-
-### Frontend
-
-* **URL da API:** Configure a URL da API backend no seu código frontend (geralmente em um arquivo de configuração `.env` ou diretamente nos serviços de API). Certifique-se de que a porta e o caminho base (`/api`) correspondam à sua API em execução. Exemplo em um arquivo `.env`:
-    ```
-    REACT_APP_API_BASE_URL=http://localhost:[porta]/api
-    ```
-    E no seu código TypeScript:
-    ```typescript
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-    ```
-
-## Considerações Finais
-
-Este projeto demonstra uma arquitetura full-stack moderna utilizando C\# (.NET) para o backend e React com TypeScript para o frontend. A separação clara entre as camadas permite uma manutenção mais fácil, escalabilidade e um desenvolvimento mais eficiente.
-
-Sinta-se à vontade para explorar o código, contribuir e adaptar o sistema às suas necessidades\!
 
 ## Licença
 
