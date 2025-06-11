@@ -14,7 +14,9 @@ interface Reserva {
   hospede: Hospede;
 }
 
+//Define um componente funcional
 const FormularioReserva: React.FC = () => {
+  //Cada useState armazena o valor de um campo do form
   const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
@@ -24,9 +26,9 @@ const FormularioReserva: React.FC = () => {
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault();//Evita o recarregamento da página
 
-    // Criar ou buscar o hóspede
+    // Criar um objeto com os dados do hospede
     const hospede: Hospede = {
       hospedeId: 0, // Se for um novo, o ID será gerado pela API
       nome,
@@ -34,13 +36,14 @@ const FormularioReserva: React.FC = () => {
       email,
       telefone,
     };
-
+    
     const reserva: Reserva = {
       checkIn,
       checkOut,
       hospede,
     };
-
+    
+    //Envia dados para a API
     try {
       const response = await fetch('http://localhost:5257/HotelAPI/reserva', {
         method: 'POST',
@@ -50,13 +53,15 @@ const FormularioReserva: React.FC = () => {
         body: JSON.stringify(reserva),
       });
 
+      //Verifica se houve erro
       if (!response.ok) {
         throw new Error('Erro ao criar a reserva');
       }
 
+      //Caso não tenha erro, limpa o form
       const data = await response.json();
       setMessage('Reserva criada com sucesso!');
-      // Limpar o formulário após o sucesso
+      
       setNome('');
       setCpf('');
       setEmail('');
@@ -67,13 +72,14 @@ const FormularioReserva: React.FC = () => {
       setMessage(`Erro: ${error.message}`);
     }
   };
-
+  
   return (
     <div>
       <h2>Criar Reserva</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Nome:</label>
+          //Atualiza o estado quando o usuario digita
           <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} required />
         </div>
         <div>
