@@ -1,8 +1,11 @@
-import React from 'react';
+//Importando biblioteca
+import React from 'react'; 
+//Importando componentes
 import FormularioReserva from './components/FormularioReserva';
 import ListaReservas from './components/ListaReservas';
-import './App.css'; // Você pode remover ou editar este arquivo de CSS
+import './App.css'; 
 
+//Função principal 
 function App() {
   return (
     <div className="App">
