@@ -37,4 +37,9 @@ public class ReservController : ControllerBase {
         }
     }
 
+<<<<<<< Updated upstream
 }*/
+=======
+}
+*/
+>>>>>>> Stashed changes

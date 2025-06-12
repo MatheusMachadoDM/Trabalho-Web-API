@@ -17,22 +17,24 @@ interface Reserva {
   hospede: Hospede;
 }
 
+//Componente
 const ListaReservas: React.FC = () => {
-  const [reservas, setReservas] = useState<Reserva[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedReserva, setSelectedReserva] = useState<Reserva | null>(null);
-  const [message, setMessage] = useState('');
+  const [reservas, setReservas] = useState<Reserva[]>([]); //Lista de reservas
+  const [loading, setLoading] = useState(true); //Indica se os dados estão sendo carregados
+  const [error, setError] = useState<string | null>(null); //Guarda erros
+  const [selectedReserva, setSelectedReserva] = useState<Reserva | null>(null);//Reserva selecionada para edição
+  const [message, setMessage] = useState(''); //Mensagem de sucesso
 
+  //busca as reservas da API
   useEffect(() => {
     const fetchReservas = async () => {
       try {
-        const response = await fetch('http://localhost:5257/HotelAPI/reserva');
+        const response = await fetch('http://localhost:5257/HotelAPI/reserva');//Requisição
         if (!response.ok) {
           throw new Error(`Erro ao buscar reservas: ${response.status}`);
         }
         const data = await response.json();
-        setReservas(data);
+        setReservas(data); //Armazena as reservas recebidas
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -43,8 +45,9 @@ const ListaReservas: React.FC = () => {
     fetchReservas();
   }, []);
 
+  //Deleta reserva
   const handleDelete = async (reservaId: number) => {
-    const confirmDelete = window.confirm('Tem certeza que deseja excluir esta reserva?');
+    const confirmDelete = window.confirm('Tem certeza que deseja excluir esta reserva?');//Confirmação
 
     if (!confirmDelete) {
       return;
@@ -66,10 +69,12 @@ const ListaReservas: React.FC = () => {
     }
   };
 
+  //Edita a reserva
   const handleEditClick = (reserva: Reserva) => {
-    setSelectedReserva(reserva);
+    setSelectedReserva(reserva); //Armazena a reserva selecionada
   };
 
+  //Atualiza a reserva
   const handleUpdateReserva = async (updatedReserva: Reserva) => {
     try {
       const response = await fetch(`http://localhost:5257/HotelAPI/reserva${updatedReserva.reservaId}`, {
@@ -97,6 +102,7 @@ const ListaReservas: React.FC = () => {
     }
   };
 
+  //Cancela a atualização
   const handleCancelUpdate = () => {
     setSelectedReserva(null);
   };
@@ -109,6 +115,7 @@ const ListaReservas: React.FC = () => {
     return <p className="error">Erro ao carregar reservas: {error}</p>;
   }
 
+  //Retorna a lista de reservas
   return (
     <div>
       <h2>Lista de Reservas</h2>
