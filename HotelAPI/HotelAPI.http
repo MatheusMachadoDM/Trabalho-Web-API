@@ -1,6 +1,49 @@
-@HotelAPI_HostAddress = http://localhost:5257
+GET http://localhost:5257
 
-GET {{HotelAPI_HostAddress}}/weatherforecast/
-Accept: application/json
+###GET todas as reservas
+GET http://localhost:5257/HotelAPI/reserva
 
-###
+###GET reserva por id
+GET http://localhost:5257/HotelAPI/reserva8
+
+###GET reservas com cpf específico
+GET http://localhost:5257/HotelAPI/reserva/hospede12312
+
+###GET todos os hospedes
+GET http://localhost:5257/HotelAPI/hospede
+
+###GET por cpf
+GET http://localhost:5257/HotelAPI/hospede12312
+
+###POST reserva
+POST http://localhost:5257/HotelAPI/reserva
+Content-Type: application/json
+
+{
+  "checkIn": "2025-07-03",
+  "checkOut": "2025-07-05",
+  "hospede": {
+    "cpf": "12312", // vai mudar os outros dados na hora de colocar no bd por se tratar de um cpf já cadastrado
+    "nome": "Maria",
+    "email": "maria@email.com",
+    "telefone": "41999999999"
+  }
+}
+
+###PUT reserva 
+Put http://localhost:5257/HotelAPI/reserva8 
+Content-Type: application/json
+
+{
+  "checkIn": "2025-07-06",
+  "checkOut": "2025-07-08",
+  "hospede": {
+    "cpf": "1345665",
+    "nome": "Maria",
+    "email": "maria@teste.com",
+    "telefone": "41999999999"
+  }
+} // O put não está funcionando e eu to com preguiça de corrigir, mas como na prova dele eu acho q ele n tinha essa associação de um objeto (reserva) com outro (hospede), é pra funcionar nesse formato
+
+###DELETE reserva por id
+DELETE http://localhost:5257/HotelAPI/reserva8

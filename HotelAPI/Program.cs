@@ -131,17 +131,23 @@ app.MapPut("/HotelAPI/reserva{ReservaId}", ([FromRoute] int ReservaId, [FromBody
     res.CheckIn = reserva.CheckIn;
     res.CheckOut = reserva.CheckOut;
 
-    if(reserva.Hospede != null && res.Hospede != null){
-        if(!string.IsNullOrEmpty(reserva.Hospede.Nome)){ // Validação para garantir que a string não é nula nem vazia antes de alterar algo, garantindo que algo só será atualizado
+    if (reserva.Hospede != null && res.Hospede != null)
+    {
+         context.Entry(reserva.Hospede).State = EntityState.Detached;
+        if (!string.IsNullOrEmpty(reserva.Hospede.Nome))
+        { // Validação para garantir que a string não é nula nem vazia antes de alterar algo, garantindo que algo só será atualizado
             res.Hospede.Nome = reserva.Hospede.Nome;    // se forem fornecidos novos parâmetros
         }
-        if(!string.IsNullOrEmpty(reserva.Hospede.Email)){
-            res.Hospede.Email = reserva.Hospede.Email;  
+        if (!string.IsNullOrEmpty(reserva.Hospede.Email))
+        {
+            res.Hospede.Email = reserva.Hospede.Email;
         }
-        if(!string.IsNullOrEmpty(reserva.Hospede.Telefone)){
+        if (!string.IsNullOrEmpty(reserva.Hospede.Telefone))
+        {
             res.Hospede.Telefone = reserva.Hospede.Telefone;
         }
-        if(!string.IsNullOrEmpty(reserva.Hospede.CPF)){
+        if (!string.IsNullOrEmpty(reserva.Hospede.CPF))
+        {
             res.Hospede.CPF = reserva.Hospede.CPF;
         }
     }
